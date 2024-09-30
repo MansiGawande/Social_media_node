@@ -11,6 +11,7 @@ post_id:{
 },
 mediaType:{
     type:DataTypes.STRING(50),
+    // type: DataTypes.ENUM('image', 'video'),
     allowNull:false
 },
 media_url:{
@@ -18,26 +19,26 @@ media_url:{
     allowNull:false,
 },
 description:{
-    type:DataTypes.STRING(200),
+    type:DataTypes.STRING(200), 
     allowNull:false
 },
 profile_id:{
   type:DataTypes.INTEGER,
   allowNull:false  
 },
-customCreatedAt: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-},
-customUpdatedAt: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-}
+// customCreatedAt: {
+//     type: DataTypes.DATE,
+//     allowNull: false,
+//     defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+// },
+// customUpdatedAt: {
+//     type: DataTypes.DATE,
+//     allowNull: false,
+//     defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+// }
 }, 
 {sequelize,
-timestamps: false});
+timestamps: true});
 
 sequelize.sync()
 .then(()=>{

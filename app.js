@@ -8,6 +8,7 @@ import cors from 'cors';
 import "./model/association.model.js"
 import path from "path";
 import { fileURLToPath } from "url";
+import likesRouter from "./routes/likes.routes.js"
 
 
 const app = express();
@@ -15,7 +16,8 @@ const app = express();
 // const __dirname = path.dirname(__filename);
 // app.use('/images', express.static(path.join(__dirname, 'ProfileImage/image')));
 
-app.use('/ProfileImage', express.static('ProfileImage'))
+app.use('/ProfileImage', express.static('ProfileImage'));
+app.use('/PostData',express.static('PostData'))
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -25,7 +27,8 @@ dotenv.config();
 
 app.use("/user",userRouter);
 app.use("/profile",profileRouter);
-app.use("/post",uploadPostRouter)
+app.use("/post",uploadPostRouter);
+app.use("/likes",likesRouter)
 
 app.listen(3001,()=>{
     console.log("server started on port 3001");

@@ -29,5 +29,5 @@ const router = express.Router();
 // Route to create a profile
 router.post("/createPro", upload.single("profileImg_URL"), createPro); 
 router.put("/updatePro", upload.single("profileImg_URL"), updatePro);
-router.get("/viewPro",viewPro)
+router.get("/viewPro",viewPro) //  extra
 export default router;
