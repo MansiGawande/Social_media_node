@@ -1,5 +1,5 @@
 import express from "express";
-import { createPro, updatePro, viewPro } from "../controller/profile.controller.js";
+import { createPro, selfProfile, updatePro, viewPro } from "../controller/profile.controller.js";
 import multer from "multer";
 import path from 'path';
 import fs from 'fs';
@@ -29,5 +29,6 @@ const router = express.Router();
 // Route to create a profile
 router.post("/createPro", upload.single("profileImg_URL"), createPro); 
 router.put("/updatePro", upload.single("profileImg_URL"), updatePro);
+router.get("/selfProfile",selfProfile)
 router.get("/viewPro",viewPro) //  extra
 export default router;

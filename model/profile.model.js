@@ -12,10 +12,10 @@ const Profile = sequelize.define('profile',{
     name:{
         type:DataTypes.STRING(100),
         allowNull:false,
-        validate: {
-            notEmpty: true,
-            is: /^[a-zA-Z\s]+$/i, 
-        },
+        // validate: {
+        //     notEmpty: true,
+        //     is: /^[a-zA-Z\s]+$/i, 
+        // },
     },
     email:{
         type:DataTypes.STRING(100),

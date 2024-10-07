@@ -8,7 +8,7 @@ const Likes = sequelize.define("likes",{
         autoIncrement:true,
         allowNull:false
     },
-    user_id:{
+    profile_id:{
         type:DataTypes.INTEGER,
         allowNull:false
     },

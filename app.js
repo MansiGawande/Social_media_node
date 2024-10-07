@@ -9,6 +9,7 @@ import "./model/association.model.js"
 import path from "path";
 import { fileURLToPath } from "url";
 import likesRouter from "./routes/likes.routes.js"
+import commentRouter from "./routes/comment.routes.js"
 
 
 const app = express();
@@ -28,7 +29,9 @@ dotenv.config();
 app.use("/user",userRouter);
 app.use("/profile",profileRouter);
 app.use("/post",uploadPostRouter);
-app.use("/likes",likesRouter)
+app.use("/likes",likesRouter);
+app.use("/comment",commentRouter)
+
 
 app.listen(3001,()=>{
     console.log("server started on port 3001");

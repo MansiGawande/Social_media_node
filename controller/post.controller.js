@@ -124,21 +124,25 @@ export const createPost = async (request, response) => {
 };
 
 //=======================================================
+
 export const profileposts = async (request, response, next) => {
     try {
-        console.log(request.query);
-        const { user_id } = request.query
-        const profileData = await Profile.findOne({ where: { user_id } });
-        if (!user_id) {
+        const { user_id,profile_id} = request.query;
+        console.log("user_id, profile_id: ",request.query);
+        const userData = await User.findOne({ where: { user_id } });
+        
+        if (!userData) {
             return response.status(404).json({ error: "Sign in for view the profile" });
         }
-        if (!profileData) {
+        
+        const profileData = await Profile.findOne({ where: { profile_id } });
+            if (!profileData) {
             return response.status(404).json({ message: "Profile not found" });
         }
-        const profile_id = profileData.profile_id;
-        console.log(profile_id);
+        const profileId = profileData.profile_id;
+        console.log(profileId);
 
-        const profilepost = await Post.findAll({ where: { profile_id } })
+        const profilepost = await Post.findAll({ where: { profile_id:profileId} })
         if (profilepost) {
             return response.status(200).json({ message: "Profile & npost is here: ", data: profilepost, profile: profileData })
         }

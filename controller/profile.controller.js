@@ -1,6 +1,7 @@
 import { request, response } from "express";
 import Profile from "../model/profile.model.js";
 import User from "../model/user.model.js";
+import Post from "../model/post.model.js";
 
 export const createPro = async (request, response,next) => {
     console.log('Request body:', request.body); 
@@ -70,6 +71,38 @@ export const updatePro = async (request, response) => {
         return response.status(500).json({ error: "Internal server problem" });
     }
 };
+//=============================================================
+
+export const selfProfile = async (request, response, next) => {
+    try {
+        const { user_id } = request.query
+        console.log("selfProfile--------------------",request.query);
+        const profileData = await Profile.findOne({ where: { user_id} });
+        if (!user_id) {
+            return response.status(404).json({ error: "Sign in for view the profile" });
+        }
+        if (!profileData) {
+            return response.status(404).json({ message: "Profile not found" });
+        }
+        console.log("profileData ***********************: ",profileData)
+        const profile_id = profileData.profile_id;
+        console.log(profile_id);
+
+        const profilepost = await Post.findAll({ where: { profile_id } })
+        if (profilepost) {
+            return response.status(200).json({ message: "Profile & npost is here: ", data: profilepost, profile: profileData })
+        }
+        // if(!profilepost){
+        //     return response.status(404).json({ message: "No Post Available", data: profilepost, profile: profileData })
+
+        // }
+    } catch (err) {
+        console.log(err);
+        return response.status(500).json({ error: "Internal server Problem." })
+    }
+}
+//======================cooreect above===================
+
 
 export const viewPro = async (request, response) => {
     try {
