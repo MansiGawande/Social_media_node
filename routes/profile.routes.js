@@ -1,5 +1,5 @@
 import express from "express";
-import { createPro, selfProfile, updatePro, viewPro } from "../controller/profile.controller.js";
+import { createPro, selfProfile, updatePro, allProfies } from "../controller/profile.controller.js";
 import multer from "multer";
 import path from 'path';
 import fs from 'fs';
@@ -30,5 +30,5 @@ const router = express.Router();
 router.post("/createPro", upload.single("profileImg_URL"), createPro); 
 router.put("/updatePro", upload.single("profileImg_URL"), updatePro);
 router.get("/selfProfile",selfProfile)
-router.get("/viewPro",viewPro) //  extra
+router.get("/suggest",allProfies) //  extra
 export default router;

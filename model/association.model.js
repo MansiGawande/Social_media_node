@@ -3,6 +3,7 @@ import Post from "./post.model.js";
 import Profile from "./profile.model.js";
 import User from "./user.model.js";
 import Comment from "./comment.model.js";
+import Follow from "./follow.model.js";
 
 
 console.log("Association Executed....................................................................................................................................................................................");
@@ -25,4 +26,9 @@ Comment.belongsTo(Post,{foreignKey:'post_id', allowNull:false})
 Profile.hasMany(Comment,{foreignKey:'profile_id',allowNull:false});
 Comment.belongsTo(Profile,{foreignKey:'profile_id',allowNull:false});
 
-export {User,Profile,Post,Likes,Comment};
+Profile.hasMany(Follow,{foreignKey:'followed_id',allowNull:false});
+Follow.belongsTo(Profile,{foreignKey:'followed_id',allowNull:false});
+// A user can follow many other users.
+// A user can also be followed by many users.
+
+export {User,Profile,Post,Likes,Comment,Follow};

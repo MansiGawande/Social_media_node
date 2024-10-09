@@ -104,15 +104,25 @@ export const selfProfile = async (request, response, next) => {
 //======================cooreect above===================
 
 
-export const viewPro = async (request, response) => {
+export const allProfies = async (request, response) => {
     try {
         const { user_id } = request.query;
         if (!user_id) {
-            return response.status(400).json({ message: "Please login for view the Profile: " });
+            console,log("User is required")
         }
-        const profileFind = await Profile.findOne({ where: { user_id } });
+        const userData = await User.findOne({ where: { user_id} });
+        console.log("userData: ", userData);
+
+        if (!userData) {
+            return response.status(404).json({ message: "Sign in to View the profile." });
+        }
+
+        // const userId = userData.user_id;
+        // console.log("UserId----------: ", userId);
+
+        const profileFind = await Profile.findAll();
          if (!profileFind) {     
-            return response.status(404).json({ message: "Profile not found" });
+            return response.status(404).json({ message: "Profiles not found" });
         }
         return response.status(200).json({ message: "Profile Data:", profile: profileFind });
          } catch (error) {

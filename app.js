@@ -10,7 +10,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import likesRouter from "./routes/likes.routes.js"
 import commentRouter from "./routes/comment.routes.js"
-
+import followRouter from "./routes/follow.routes.js"
 
 const app = express();
 // const __filename = fileURLToPath(import.meta.url);
@@ -30,7 +30,8 @@ app.use("/user",userRouter);
 app.use("/profile",profileRouter);
 app.use("/post",uploadPostRouter);
 app.use("/likes",likesRouter);
-app.use("/comment",commentRouter)
+app.use("/comment",commentRouter);
+app.use ("/follow",followRouter)
 
 
 app.listen(3001,()=>{
