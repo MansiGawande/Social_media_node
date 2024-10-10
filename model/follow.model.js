@@ -2,10 +2,14 @@ import { DataTypes } from "sequelize";
 import sequelize from "../database/dbConfig.js";
 
 const Follow = sequelize.define("follow", {
+    follow_id:{
+        type:DataTypes.INTEGER,
+        allowNull:false,
+         primaryKey: true,
+        autoIncrement: true,
+    },
     follower_id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
         allowNull: false
     },
     followed_id: {

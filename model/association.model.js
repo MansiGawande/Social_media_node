@@ -26,9 +26,12 @@ Comment.belongsTo(Post,{foreignKey:'post_id', allowNull:false})
 Profile.hasMany(Comment,{foreignKey:'profile_id',allowNull:false});
 Comment.belongsTo(Profile,{foreignKey:'profile_id',allowNull:false});
 
-Profile.hasMany(Follow,{foreignKey:'followed_id',allowNull:false});
-Follow.belongsTo(Profile,{foreignKey:'followed_id',allowNull:false});
-// A user can follow many other users.
-// A user can also be followed by many users.
+Profile.hasMany(Follow, { foreignKey: 'follower_id', allowNull: false });
+Follow.belongsTo(Profile, { foreignKey: 'follower_id', allowNull: false }); //as: 'Follower' 
+// A profile can follow many other profile.
+// A profile can also be followed by many profiles.
+
+Profile.hasMany(Follow, { foreignKey: 'followed_id', allowNull: false });
+Follow.belongsTo(Profile, { foreignKey: 'followed_id', allowNull: false}); //as: 'Followed' 
 
 export {User,Profile,Post,Likes,Comment,Follow};
