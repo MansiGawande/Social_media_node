@@ -4,6 +4,7 @@ import Profile from "./profile.model.js";
 import User from "./user.model.js";
 import Comment from "./comment.model.js";
 import Follow from "./follow.model.js";
+import Message from "./message.model.js";
 
 
 console.log("Association Executed....................................................................................................................................................................................");
@@ -34,4 +35,10 @@ Follow.belongsTo(Profile, { foreignKey: 'follower_id', allowNull: false }); //as
 Profile.hasMany(Follow, { foreignKey: 'followed_id', allowNull: false });
 Follow.belongsTo(Profile, { foreignKey: 'followed_id', allowNull: false}); //as: 'Followed' 
 
-export {User,Profile,Post,Likes,Comment,Follow};
+Profile.hasMany(Message, { foreignKey: 'sender_id', allowNull: false });
+Message.belongsTo(Profile, { foreignKey: 'sender_id', allowNull: false, as: 'Sender' });
+
+Profile.hasMany(Message, { foreignKey: 'receiver_id', allowNull: false });
+Message.belongsTo(Profile, { foreignKey: 'receiver_id', allowNull: false, as: 'Receiver' });
+
+export {User,Profile,Post,Likes,Comment,Follow,Message};

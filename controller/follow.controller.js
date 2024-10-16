@@ -167,3 +167,52 @@ return response.status(200).json({message:"Followers are: ", followers:followDat
     return response.status(500).json({message:"Internal server problem..."})
   }
 }
+
+export const chatFollow = async(request,response,next)=>{
+  try{
+    const {user_id} = request.query;
+    console.log(request.query);
+
+    const userData = await User.findOne({where:{user_id:user_id}});
+    console.log("userData: ",userData);
+    if(!userData){
+  return response.status(404).json({message:'Please sign in for view the followers'});
+}
+  const existpro  = await Profile.findOne({where:{user_id}})
+  console.log("existpro: ",existpro);
+  if(!existpro){
+    return response.status(404).json({message:"Profile not found."})
+  } 
+  console.log("existpro.profile_id: ",existpro.profile_id);
+  const profile_id = existpro.profile_id;
+
+  const profileData = await Profile.findOne({ where: { profile_id: profile_id } }); // whose
+  console.log("profileData: ", profileData);
+  if(!profileData){
+    return response.status(404).json({message:"Profile not found."})
+  }
+
+const follower_id = profileData.profile_id; // profileId = follower who
+
+const followData = await Follow.findAll({
+  where: { follower_id: follower_id},
+  include:[
+    {
+      model:Profile,
+      as:'profile',
+      attributes:['profile_id', 'name', 'profileImg_URL','bio'],
+
+    }
+  ]
+});
+
+if (!followData) {
+  return response.status(409).json({ message: "Something went wrong...." });
+}
+return response.status(200).json({message:"Followers are: ", followers:followData})
+
+}catch(err){
+    console.log(err);
+    return response.status(500).json({message:"Internal server problem..."})
+  }
+}
