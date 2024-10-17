@@ -12,14 +12,14 @@ const Message = sequelize.define("message",{
         allowNull:false
     },
     reciever_id:{
-        type:DataTypes.STRING,
+        type:DataTypes.INTEGER,
         allowNull:false
     },
     content:{
         type:DataTypes.TEXT,
         allowNull:false,
 },
-        media_url:{
+    media_url:{
        type:DataTypes.STRING
     }
 },{

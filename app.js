@@ -19,7 +19,8 @@ const app = express();
 // app.use('/images', express.static(path.join(__dirname, 'ProfileImage/image')));
 
 app.use('/ProfileImage', express.static('ProfileImage'));
-app.use('/PostData',express.static('PostData'))
+app.use('/PostData',express.static('PostData'));
+app.use('/Send',express.static('Send'))
 
 app.use(cors());
 app.use(bodyParser.json());
