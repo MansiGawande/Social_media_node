@@ -20,7 +20,10 @@ const Message = sequelize.define("message",{
         allowNull:false,
 },
     media_url:{
-       type:DataTypes.STRING
+       type:DataTypes.STRING,
+    },
+    name:{
+        type:DataTypes.STRING,
     }
 },{
     sequelize,
