@@ -4,6 +4,7 @@ import Profile from "../model/profile.model.js";
 import Message from "../model/message.model.js";
 import sharp from "sharp";
 import fs from "fs";
+import { Op } from "sequelize";
 
 export const addchat = async (request, response, next) => {
   try {
@@ -77,7 +78,7 @@ export const addchat = async (request, response, next) => {
         .resize(newWidth, newHeight)
         .toFile(resizedMediaPath);
 
-      // Delete the original uploaded file if needed (optional)
+      // Delete the original uploaded file if needed 
       fs.access(media_url, fs.constants.F_OK, (err) => {
         if (!err) {
           // File exists, proceed with deletion
@@ -92,9 +93,8 @@ export const addchat = async (request, response, next) => {
             }
           });
         }
-      });
-
-      // Set media_url to the path of the resized image
+      }); //correct
+   // Set media_url to the path of the resized image
       const resizedMediaUrl = `resized_${request.file.filename}`;
       const follow = await Message.create({
         reciever_id: reciever, // who
@@ -105,6 +105,22 @@ export const addchat = async (request, response, next) => {
       });
       if (follow) {
         console.log("Follow data: ", follow);
+
+        const messageToEmit = {
+          sender_id: follow.sender_id,
+          reciever_id: follow.reciever_id,
+          content: follow.content,
+          media_url: follow.media_url,
+          createdAt: follow.createdAt,
+        };
+  
+        request.app.get('io').emit('newMessage', messageToEmit);
+  
+        return response.status(200).json({
+          message: "Message sent successfully.",
+          data: follow
+        });
+  
       }
       return response.status(200).json({
         message: "You are successfully following the profile.",
@@ -132,10 +148,10 @@ export const addchat = async (request, response, next) => {
   }
 };
 
+//SELECT * from messages where( sender_id = 1 AND reciever_id = 2) OR ( sender_id = 2 AND reciever_id = 1);
 export const chatByUser = async(request,response,next)=>{
   console.log(request.query);
   // track random signin & click chat
-
   try{
     const { reciever_id,  user_id } = request.query; // followed_id = profile_id
 
@@ -160,29 +176,19 @@ export const chatByUser = async(request,response,next)=>{
     return response.status(404).json({ message: "Sender Profile not Found." });
   }
   console.log("sender profile_id: ", existpro.profile_id);
-  // const senderUser = existpro.profile_id;
-   //===================================================================
-   
-  //  const followercheck = await Profile.findOne({
-  //    where: { profile_id: senderUser },
-  //   }); // who
-    
-  //   if (!followercheck) {
-  //     return response.status(404).json({ message: "sender profile not exist" });
-  //   }
-  //   const sender = followercheck.profile_id; //sender final
-    //==========================================================================
+  const senderUser = existpro.profile_id;
+  //==========================================================================
 
-  // const chat = await Message.findAll({where:{reciever_id:reciever_id,sender_id:senderUser}})
-  // return response.status(200).json({message:"BY Profile chat Get",data:chat})
-
-
+  const chat = await Message.findAll({ where: {
+[Op.or]: [
+        { reciever_id: reciever_id, sender_id: senderUser },
+        { reciever_id: senderUser, sender_id: reciever_id }
+      ]
+    }
+  });  return response.status(200).json({message:"BY Profile chat Get",data:chat})
   }catch(err){
     console.log(err);
     return response.status(500).json({error:"Internal server Problem...."})
   }
-
-  
-
-
 }
+
