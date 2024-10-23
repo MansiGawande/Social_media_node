@@ -50,9 +50,7 @@ io.on('connection', (socket) => {
 
     // handle incoming messages
     socket.on('sendMessage', (message) => {
-        // here save the message to the db
-
-        io.emit('newMessage', message); // broadcast the new message
+        io.emit('newMessage', message); //  new message to db
     });
 
     socket.on('disconnect', () => {
@@ -63,6 +61,6 @@ app.listen(3001,()=>{
     console.log("server started on port 3001");
 })
 // Socket.IO event handling can also be set up here
-// io.on('connection', (socket) => {
-//   console.log('New client connected'); // for adding the event like media
-// });
+io.on('connection', (socket) => {
+  console.log('New client connected'); // for adding the event like media
+});
